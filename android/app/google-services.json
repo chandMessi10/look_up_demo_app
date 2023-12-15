@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510569646351",
+    "project_id": "lookupdemoapp-dbae6",
+    "storage_bucket": "lookupdemoapp-dbae6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510569646351:android:d9c472fe8665aa9924967a",
+        "android_client_info": {
+          "package_name": "com.example.look_up_demo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY42VjMeDwUV-m9T1IJ2NU0kCqxNMAxBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
