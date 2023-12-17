@@ -13,6 +13,7 @@ class SocialMediaLoginButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -23,12 +24,12 @@ class SocialMediaLoginButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         child: Container(
           alignment: Alignment.center,
-          height: 40,
-          width: 40,
+          height: size.height * 0.4,
+          width: size.width * 0.12,
           child: SvgPicture.asset(
             iconAssetPath,
-            height: 25,
-            width: 25,
+            height: size.height * 0.025,
+            width: size.width * 0.025,
           ),
         ),
       ),

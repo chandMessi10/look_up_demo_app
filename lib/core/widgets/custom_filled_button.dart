@@ -5,8 +5,6 @@ class CustomFilledButton extends StatelessWidget {
     required this.buttonLabel,
     required this.buttonOnPressed,
     this.isLoading,
-    this.desiredWidth,
-    this.desiredHeight,
     this.desiredButtonShape,
     this.desiredBackgroundColor,
     this.desiredTextColor,
@@ -16,8 +14,6 @@ class CustomFilledButton extends StatelessWidget {
   final String buttonLabel;
   final VoidCallback buttonOnPressed;
   final bool? isLoading;
-  final double? desiredWidth;
-  final double? desiredHeight;
   final Color? desiredBackgroundColor;
   final Color? desiredTextColor;
   final MaterialStateProperty<OutlinedBorder?>? desiredButtonShape;
@@ -42,10 +38,10 @@ class CustomFilledButton extends StatelessWidget {
                 ),
               ),
             ),
-        fixedSize: MaterialStateProperty.all<Size>(
-          Size(
-            desiredWidth ?? size.width,
-            desiredHeight ?? size.height * 0.06,
+        padding: MaterialStateProperty.all<EdgeInsets>(
+          const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 16,
           ),
         ),
       ),

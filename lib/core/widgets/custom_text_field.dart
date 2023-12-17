@@ -25,7 +25,6 @@ class CustomFormFieldWidget extends StatelessWidget {
       controller: textEditingController,
       obscureText: obscurePassword != null && obscurePassword!,
       cursorColor: Colors.white,
-      cursorHeight: 16,
       style: const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w700,
