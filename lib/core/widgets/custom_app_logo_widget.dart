@@ -146,7 +146,7 @@ class EyeBallImage extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         SvgPicture.asset(
-          'assets/logo_letter/eye_foreground.svg',
+          'assets/logo_letter/eye_background.svg',
           width: size.width * 0.018,
           height: size.height * 0.018,
           colorFilter: const ColorFilter.mode(
@@ -155,7 +155,7 @@ class EyeBallImage extends StatelessWidget {
           ),
         ),
         SvgPicture.asset(
-          'assets/logo_letter/eye_background.svg',
+          'assets/logo_letter/eye_foreground.svg',
           width: size.width * 0.011,
           height: size.height * 0.011,
         ),

@@ -12,7 +12,7 @@ enum AppRoute {
 }
 
 final GoRouter router = GoRouter(
-  initialLocation: '/splash',
+  initialLocation: '/home',
   routes: [
     GoRoute(
       path: '/splash',
@@ -22,7 +22,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/login',
       name: AppRoute.login.name,
-      builder: (context, state) => LogInScreen(),
+      builder: (context, state) => const LogInScreen(),
     ),
     GoRoute(
       path: '/preLoaderHome',

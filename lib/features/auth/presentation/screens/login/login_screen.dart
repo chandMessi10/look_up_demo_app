@@ -55,162 +55,293 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
               ClipPath(
                 clipper: LoginScreenBackgroundClipper(),
                 child: Container(
-                  height: size.height / 1.5,
+                  height: size.height / 1.4,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
 
               /// Logo
               Positioned(
-                top: size.height * 0.1,
                 left: 0,
                 right: 0,
-                child: const CustomAppLogoWidget(),
-              ),
-
-              /// Form Field
-              Positioned(
-                left: 0,
-                right: 0,
-                top: size.height * 0.181,
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: size.width * 0.072,
-                    vertical: size.height * 0.01,
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                top: 0,
+                height: size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      color: Colors.orange,
+                      child: const CustomAppLogoWidget(),
+                    ),
+                    sizedBoxHeight(size.height * 0.053),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.072,
+                        vertical: size.height * 0.01,
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
+                            sizedBoxHeight(size.height * 0.02),
+                            CustomFormFieldWidget(
+                              textEditingController: _emailController,
+                              labelName: 'Email',
+                              focusNode: _emailFocusNode,
+                              validatorFunction: emailValidator,
+                            ),
+                            sizedBoxHeight(size.height * 0.02),
+                            CustomFormFieldWidget(
+                              textEditingController: _passwordController,
+                              labelName: 'Password',
+                              obscurePassword: true,
+                              focusNode: _passwordFocusNode,
+                              validatorFunction: passwordValidator,
+                              suffixIconFunction: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    sizedBoxHeight(size.height * 0.04),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.072,
+                        vertical: size.height * 0.01,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: CustomFilledButton(
+                              buttonLabel: 'SIGNUP',
+                              buttonOnPressed: () {
+                                if (_formKey.currentState!.validate()) {}
+                              },
+                              desiredBackgroundColor: Colors.white,
+                              desiredTextColor: const Color(0xFF1D67DD),
+                            ),
+                          ),
+                          sizedBoxWidth(10),
+                          Expanded(
+                            child: CustomFilledButton(
+                              buttonLabel: 'LOGIN',
+                              buttonOnPressed: () {
+                                if (_formKey.currentState!.validate()) {}
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    sizedBoxHeight(size.height * 0.05),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          'Login',
+                          'or login with',
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                            color: Color(0xFF6E6B6B),
                           ),
                         ),
-                        sizedBoxHeight(8),
-                        CustomFormFieldWidget(
-                          textEditingController: _emailController,
-                          labelName: 'Email',
-                          focusNode: _emailFocusNode,
-                          validatorFunction: emailValidator,
-                        ),
-                        sizedBoxHeight(8),
-                        CustomFormFieldWidget(
-                          textEditingController: _passwordController,
-                          labelName: 'Password',
-                          obscurePassword: true,
-                          focusNode: _passwordFocusNode,
-                          validatorFunction: passwordValidator,
-                          suffixIconFunction: () {},
+                        sizedBoxHeight(size.height * 0.015),
+                        Container(
+                          width: double.infinity,
+                          height: size.height * 0.07,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.072,
+                            vertical: size.height * 0.005,
+                          ),
+                          alignment: Alignment.center,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              final buttonData = socialMediaLoginList[index];
+                              return SocialMediaLoginButtonWidget(
+                                onTapFunction: buttonData.buttonFunction,
+                                iconAssetPath: buttonData.socialMediaIconPath,
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return sizedBoxWidth(size.width * 0.04);
+                            },
+                            itemCount: socialMediaLoginList.length,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ),
-
-              /// Auth Buttons
-              Positioned(
-                left: 0,
-                right: 0,
-                top: size.height * 0.530,
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: size.width * 0.072,
-                    vertical: size.height * 0.01,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: CustomFilledButton(
-                          buttonLabel: 'SIGNUP',
-                          buttonOnPressed: () {
-                            if (_formKey.currentState!.validate()) {}
-                          },
-                          desiredBackgroundColor: Colors.white,
-                          desiredTextColor: const Color(0xFF1D67DD),
-                        ),
-                      ),
-                      sizedBoxWidth(10),
-                      Expanded(
-                        child: CustomFilledButton(
-                          buttonLabel: 'LOGIN',
-                          buttonOnPressed: () {
-                            if (_formKey.currentState!.validate()) {}
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-
-              /// Social Login Buttons
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: size.height * 0.187,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'or login with',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF6E6B6B),
-                      ),
-                    ),
-                    sizedBoxHeight(size.height * 0.015),
-                    Container(
-                      width: double.infinity,
-                      height: size.height * 0.07,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.072,
-                        vertical: size.height * 0.005,
-                      ),
-                      alignment: Alignment.center,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final buttonData = socialMediaLoginList[index];
-                          return SocialMediaLoginButtonWidget(
-                            onTapFunction: buttonData.buttonFunction,
-                            iconAssetPath: buttonData.socialMediaIconPath,
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return sizedBoxWidth(size.width * 0.04);
-                        },
-                        itemCount: socialMediaLoginList.length,
+                    sizedBoxHeight(size.height * 0.05),
+                    InkWell(
+                      onTap: () {},
+                      child: const CustomRichTextWidget(
+                        primaryText: "Don't have an account yet ? ",
+                        secondaryText: 'SIGNUP',
                       ),
                     ),
                   ],
                 ),
               ),
 
-              /// Sign Up Text Button
-              Positioned(
-                right: 0,
-                left: 0,
-                bottom: size.height * 0.075,
-                child: InkWell(
-                  onTap: () {},
-                  child: const CustomRichTextWidget(
-                    primaryText: "Don't have an account yet ? ",
-                    secondaryText: 'SIGNUP',
-                  ),
-                ),
-              ),
+              // /// Form Field
+              // Positioned(
+              //   left: 0,
+              //   right: 0,
+              //   top: size.height * 0.181,
+              //   child: Container(
+              //     width: double.infinity,
+              //     padding: EdgeInsets.symmetric(
+              //       horizontal: size.width * 0.072,
+              //       vertical: size.height * 0.01,
+              //     ),
+              //     child: Form(
+              //       key: _formKey,
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           const Text(
+              //             'Login',
+              //             style: TextStyle(
+              //               fontSize: 30,
+              //               fontWeight: FontWeight.w500,
+              //               color: Colors.white,
+              //             ),
+              //           ),
+              //           sizedBoxHeight(8),
+              //           CustomFormFieldWidget(
+              //             textEditingController: _emailController,
+              //             labelName: 'Email',
+              //             focusNode: _emailFocusNode,
+              //             validatorFunction: emailValidator,
+              //           ),
+              //           sizedBoxHeight(8),
+              //           CustomFormFieldWidget(
+              //             textEditingController: _passwordController,
+              //             labelName: 'Password',
+              //             obscurePassword: true,
+              //             focusNode: _passwordFocusNode,
+              //             validatorFunction: passwordValidator,
+              //             suffixIconFunction: () {},
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              //
+              // /// Auth Buttons
+              // Positioned(
+              //   left: 0,
+              //   right: 0,
+              //   top: size.height * 0.530,
+              //   child: Container(
+              //     width: double.infinity,
+              //     padding: EdgeInsets.symmetric(
+              //       horizontal: size.width * 0.072,
+              //       vertical: size.height * 0.01,
+              //     ),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.max,
+              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //       children: [
+              //         Expanded(
+              //           child: CustomFilledButton(
+              //             buttonLabel: 'SIGNUP',
+              //             buttonOnPressed: () {
+              //               if (_formKey.currentState!.validate()) {}
+              //             },
+              //             desiredBackgroundColor: Colors.white,
+              //             desiredTextColor: const Color(0xFF1D67DD),
+              //           ),
+              //         ),
+              //         sizedBoxWidth(10),
+              //         Expanded(
+              //           child: CustomFilledButton(
+              //             buttonLabel: 'LOGIN',
+              //             buttonOnPressed: () {
+              //               if (_formKey.currentState!.validate()) {}
+              //             },
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              //
+              // /// Social Login Buttons
+              // Positioned(
+              //   left: 0,
+              //   right: 0,
+              //   bottom: size.height * 0.187,
+              //   child: Column(
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [
+              //       const Text(
+              //         'or login with',
+              //         style: TextStyle(
+              //           fontSize: 16,
+              //           fontWeight: FontWeight.w500,
+              //           color: Color(0xFF6E6B6B),
+              //         ),
+              //       ),
+              //       sizedBoxHeight(size.height * 0.015),
+              //       Container(
+              //         width: double.infinity,
+              //         height: size.height * 0.07,
+              //         padding: EdgeInsets.symmetric(
+              //           horizontal: size.width * 0.072,
+              //           vertical: size.height * 0.005,
+              //         ),
+              //         alignment: Alignment.center,
+              //         child: ListView.separated(
+              //           scrollDirection: Axis.horizontal,
+              //           shrinkWrap: true,
+              //           itemBuilder: (context, index) {
+              //             final buttonData = socialMediaLoginList[index];
+              //             return SocialMediaLoginButtonWidget(
+              //               onTapFunction: buttonData.buttonFunction,
+              //               iconAssetPath: buttonData.socialMediaIconPath,
+              //             );
+              //           },
+              //           separatorBuilder: (context, index) {
+              //             return sizedBoxWidth(size.width * 0.04);
+              //           },
+              //           itemCount: socialMediaLoginList.length,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              //
+              // /// Sign Up Text Button
+              // Positioned(
+              //   right: 0,
+              //   left: 0,
+              //   bottom: size.height * 0.075,
+              //   child: InkWell(
+              //     onTap: () {},
+              //     child: const CustomRichTextWidget(
+              //       primaryText: "Don't have an account yet ? ",
+              //       secondaryText: 'SIGNUP',
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
