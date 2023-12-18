@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:look_up_demo_app/features/home/presentation/widgets/home_screen_entry_custom_path.dart';
+import 'package:look_up_demo_app/core/utils/constants.dart';
+import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
+import 'package:look_up_demo_app/core/utils/suffle_image_list_util.dart';
 import 'package:look_up_demo_app/core/widgets/custom_scaffold_widget.dart';
+import 'package:look_up_demo_app/features/home/presentation/widgets/home_screen_entry_custom_path.dart';
+import 'package:look_up_demo_app/features/home/presentation/widgets/image_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -50,19 +54,73 @@ class _HomeScreenState extends State<HomeScreen>
                 clipper: HomeScreenEntryCustomPath(
                   value: _animationController.value,
                 ),
-                child: Container(
+                child: SizedBox(
                   height: size.height,
                   width: double.infinity,
-                  child: CustomScaffoldWidget(
-                    scaffoldBody: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child: SafeArea(
+                    child: CustomScaffoldWidget(
+                      appBar: AppBar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                      scaffoldBody: Column(
                         children: [
-                          Center(
-                            child: Text(
-                              'home screen',
-                              style: TextStyle(),
+                          Container(
+                            height: size.height * 0.1,
+                            width: double.infinity,
+                            child: Stack(
+                              children: [
+                                Column(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        color: Theme.of(context).primaryColor,
+                                        height: size.height * 0.05,
+                                        width: double.infinity,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        color: Colors.white,
+                                        height: size.height * 0.05,
+                                        width: double.infinity,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  sizedBoxHeight(size.height * 0.01),
+                                  ImageListWidget(
+                                    title: 'Stories',
+                                    imageList:
+                                        shuffleList(AppConstants.imageList),
+                                  ),
+                                  sizedBoxHeight(size.height * 0.02),
+                                  ImageListWidget(
+                                    title: 'Trending',
+                                    imageList:
+                                        shuffleList(AppConstants.imageList),
+                                  ),
+                                  sizedBoxHeight(size.height * 0.02),
+                                  ImageListWidget(
+                                    title: 'Best workout',
+                                    imageList:
+                                        shuffleList(AppConstants.imageList),
+                                  ),
+                                  sizedBoxHeight(size.height * 0.02),
+                                  ImageListWidget(
+                                    title: 'Dancing',
+                                    imageList:
+                                        shuffleList(AppConstants.imageList),
+                                  ),
+                                  sizedBoxHeight(size.height * 0.02),
+                                ],
+                              ),
                             ),
                           ),
                         ],

@@ -4,13 +4,17 @@ class CustomScaffoldWidget extends StatelessWidget {
   const CustomScaffoldWidget({
     required this.scaffoldBody,
     this.canPopScreen,
+    this.appBar,
     this.popFunction,
+    this.bottomNavigationWidget,
     super.key,
   });
 
   final Widget scaffoldBody;
+  final AppBar? appBar;
   final bool? canPopScreen;
   final void Function(bool)? popFunction;
+  final Widget? bottomNavigationWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,9 @@ class CustomScaffoldWidget extends StatelessWidget {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
+          appBar: appBar,
           body: scaffoldBody,
+          bottomNavigationBar: bottomNavigationWidget,
         ),
       ),
     );
