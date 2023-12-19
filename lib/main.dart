@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:look_up_demo_app/core/navigation/go_router_config.dart';
+import 'package:look_up_demo_app/core/utils/sqflite_service.dart';
+import 'package:look_up_demo_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:look_up_demo_app/firebase_options.dart';
 
 void main() async {
@@ -8,6 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SqfliteService().initializeDB();
   runApp(const MyApp());
 }
 
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Raleway',
         scaffoldBackgroundColor: Colors.white,
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1D67DD)),
         useMaterial3: true,
       ),
-      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
     );
   }
 }

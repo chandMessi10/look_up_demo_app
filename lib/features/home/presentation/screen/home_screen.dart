@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:look_up_demo_app/core/utils/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:look_up_demo_app/core/utils/app_constants.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
 import 'package:look_up_demo_app/core/utils/suffle_image_list_util.dart';
 import 'package:look_up_demo_app/core/widgets/custom_scaffold_widget.dart';
 import 'package:look_up_demo_app/features/home/presentation/widgets/home_screen_entry_custom_path.dart';
+import 'package:look_up_demo_app/features/home/presentation/widgets/home_tap_bar_widge.dart';
 import 'package:look_up_demo_app/features/home/presentation/widgets/image_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 1500),
     );
     _animationController.forward();
   }
@@ -43,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         Positioned(
-          // top: 50,
           bottom: 0,
           left: 0,
           right: 0,
@@ -61,11 +62,32 @@ class _HomeScreenState extends State<HomeScreen>
                     child: CustomScaffoldWidget(
                       appBar: AppBar(
                         backgroundColor: Theme.of(context).primaryColor,
+                        leading: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.038,
+                          ),
+                          child: SvgPicture.asset(
+                            AppConstants.tableMenuIconPath,
+                            height: size.height * 0.01,
+                            width: size.width * 0.01,
+                          ),
+                        ),
+                        centerTitle: true,
+                        title: SvgPicture.asset(
+                          AppConstants.appLogoPath,
+                          height: size.height * 0.035,
+                        ),
+                        actions: [
+                          SvgPicture.asset(
+                            AppConstants.qrScanIconPath,
+                          ),
+                          sizedBoxWidth(size.width * 0.05),
+                        ],
                       ),
                       scaffoldBody: Column(
                         children: [
-                          Container(
-                            height: size.height * 0.1,
+                          SizedBox(
+                            height: size.height * 0.18,
                             width: double.infinity,
                             child: Stack(
                               children: [
@@ -74,18 +96,70 @@ class _HomeScreenState extends State<HomeScreen>
                                     Expanded(
                                       child: Container(
                                         color: Theme.of(context).primaryColor,
-                                        height: size.height * 0.05,
+                                        height: size.height * 0.1,
                                         width: double.infinity,
                                       ),
                                     ),
                                     Expanded(
                                       child: Container(
                                         color: Colors.white,
-                                        height: size.height * 0.05,
+                                        height: size.height * 0.1,
                                         width: double.infinity,
                                       ),
                                     ),
                                   ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: size.width * 0.05,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: size.height * 0.04,
+                                        width: size.width,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.white,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: size.height * 0.006,
+                                          horizontal: size.width * 0.02,
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              AppConstants.searchIconPath,
+                                              height: size.height * 0.016,
+                                              width: size.width * 0.016,
+                                            ),
+                                            sizedBoxWidth(size.width * 0.015),
+                                            const Expanded(
+                                              child: Text(
+                                                'Search and look up your favourites',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color(0xFFC3BFBF),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      sizedBoxHeight(size.height * 0.01),
+                                      SizedBox(
+                                        width: size.width,
+                                        height: size.height * 0.1,
+                                        child: HomeTabBarWidget(),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -94,7 +168,6 @@ class _HomeScreenState extends State<HomeScreen>
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  sizedBoxHeight(size.height * 0.01),
                                   ImageListWidget(
                                     title: 'Stories',
                                     imageList:

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:look_up_demo_app/core/utils/constants.dart';
+import 'package:look_up_demo_app/core/utils/app_constants.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
 import 'package:look_up_demo_app/core/widgets/custom_scaffold_widget.dart';
 import 'package:look_up_demo_app/features/home/presentation/widgets/interest_option_widget.dart';

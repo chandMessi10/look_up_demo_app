@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:look_up_demo_app/core/utils/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:look_up_demo_app/core/utils/app_constants.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
 import 'package:look_up_demo_app/core/utils/input_validation_mixin.dart';
-import 'package:look_up_demo_app/core/widgets/custom_app_logo_widget.dart';
 import 'package:look_up_demo_app/core/widgets/custom_filled_button.dart';
 import 'package:look_up_demo_app/core/widgets/custom_rich_text_widget.dart';
 import 'package:look_up_demo_app/core/widgets/custom_scaffold_widget.dart';
@@ -10,6 +10,7 @@ import 'package:look_up_demo_app/core/widgets/custom_text_field.dart';
 import 'package:look_up_demo_app/features/auth/domain/entities/social_media_login_button_model.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/custom_login_icon_button.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/login_screen_background_clipper.dart';
+import 'package:look_up_demo_app/features/home/presentation/screen/pre_loader_home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -70,12 +71,14 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      color: Colors.orange,
-                      child: const CustomAppLogoWidget(),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        AppConstants.appLogoPath,
+                        height: size.height * 0.075,
+                      ),
                     ),
-                    sizedBoxHeight(size.height * 0.053),
+                    sizedBoxHeight(size.height * 0.04),
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
@@ -115,7 +118,7 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                         ),
                       ),
                     ),
-                    sizedBoxHeight(size.height * 0.04),
+                    sizedBoxHeight(size.height * 0.07),
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
@@ -141,7 +144,37 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                             child: CustomFilledButton(
                               buttonLabel: 'LOGIN',
                               buttonOnPressed: () {
-                                if (_formKey.currentState!.validate()) {}
+                                /// validate and add navigation
+                                /// code in BlocListener
+                                // if (_formKey.currentState!.validate()) {}
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, secondaryAnimation) {
+                                      return const PreLoaderHomeScreen();
+                                    },
+                                    transitionDuration:
+                                    const Duration(milliseconds: 1000),
+                                    transitionsBuilder: (
+                                        context,
+                                        animation,
+                                        secondaryAnimation,
+                                        child,
+                                        ) {
+                                      const begin = 0.0;
+                                      const end = 1.0;
+                                      const curve = Curves.easeInExpo;
+                                      var tween = Tween(begin: begin, end: end)
+                                          .chain(CurveTween(curve: curve));
+                                      var opacityAnimation = animation.drive(tween);
+                                      return Opacity(
+                                        opacity: opacityAnimation.value,
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
                               },
                             ),
                           )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:look_up_demo_app/core/utils/constants.dart';
+import 'package:look_up_demo_app/core/utils/app_constants.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
+import 'package:look_up_demo_app/features/home/presentation/screen/home_screen.dart';
 
 class InterestOptionWidget extends StatelessWidget {
   InterestOptionWidget({super.key});
@@ -90,7 +91,36 @@ class InterestOptionWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder:
+                          (context, animation, secondaryAnimation) {
+                        return const HomeScreen();
+                      },
+                      transitionDuration:
+                      const Duration(milliseconds: 500),
+                      transitionsBuilder: (
+                          context,
+                          animation,
+                          secondaryAnimation,
+                          child,
+                          ) {
+                        const begin = 0.0;
+                        const end = 1.0;
+                        const curve = Curves.easeInExpo;
+                        var tween = Tween(begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+                        var opacityAnimation = animation.drive(tween);
+                        return Opacity(
+                          opacity: opacityAnimation.value,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

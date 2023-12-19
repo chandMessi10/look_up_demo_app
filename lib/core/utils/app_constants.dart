@@ -4,6 +4,16 @@ class AppConstants {
   // local cache keys
   static const String tokenKey = 'savedTokenKey';
 
+  // App branding logos
+  static const String appLogoPath = 'assets/icons/lookup_logo.svg';
+  static const String trendingIconPath = 'assets/icons/trending_icon.svg';
+  static const String popularIconPath = 'assets/icons/popular_icon.svg';
+  static const String latestIconPath = 'assets/icons/latest_icon.svg';
+  static const String followingIconPath = 'assets/icons/following_icon.svg';
+  static const String tableMenuIconPath = 'assets/icons/table_menu_deep.svg';
+  static const String qrScanIconPath = 'assets/icons/qr_scan_icon.svg';
+  static const String searchIconPath = 'assets/icons/search_icon.svg';
+
   // Social media login asset paths
   static const String gmailIconPath = 'assets/icons/gmail_icon.svg';
   static const String facebookIconPath = 'assets/icons/facebook_icon.svg';

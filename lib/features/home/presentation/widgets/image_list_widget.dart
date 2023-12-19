@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
 import 'package:look_up_demo_app/features/home/domain/entities/image_data_model.dart';
+import 'package:look_up_demo_app/features/home/presentation/screen/full_image_viewer_screen.dart';
 
 class ImageListWidget extends StatelessWidget {
   const ImageListWidget({
@@ -21,7 +22,7 @@ class ImageListWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: size.width * 0.02,
+            horizontal: size.width * 0.05,
           ),
           child: Text(
             title,
@@ -43,12 +44,25 @@ class ImageListWidget extends StatelessWidget {
             },
             itemCount: imageList.length,
             padding: EdgeInsets.symmetric(
-              horizontal: size.width * 0.02,
+              horizontal: size.width * 0.05,
             ),
             itemBuilder: (context, index) {
               final imageData = imageList[index];
-              return CachedNetworkImage(
-                imageUrl: imageData.imageUrl,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FullImageViewerScreen(
+                        imageList: imageList,
+                        selectedImageIndex: index,
+                      ),
+                    ),
+                  );
+                },
+                child: CachedNetworkImage(
+                  imageUrl: imageData.imageUrl,
+                ),
               );
             },
           ),
