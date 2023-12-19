@@ -20,7 +20,6 @@ class CustomFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return FilledButton(
       onPressed: buttonOnPressed,
       style: ButtonStyle(
@@ -46,7 +45,9 @@ class CustomFilledButton extends StatelessWidget {
         ),
       ),
       child: isLoading != null && isLoading!
-          ? const CircularProgressIndicator()
+          ? const CircularProgressIndicator(
+              color: Colors.cyanAccent,
+            )
           : Text(
               buttonLabel,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(

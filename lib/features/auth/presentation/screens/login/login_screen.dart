@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_up_demo_app/core/utils/app_constants.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
@@ -8,6 +9,7 @@ import 'package:look_up_demo_app/core/widgets/custom_rich_text_widget.dart';
 import 'package:look_up_demo_app/core/widgets/custom_scaffold_widget.dart';
 import 'package:look_up_demo_app/core/widgets/custom_text_field.dart';
 import 'package:look_up_demo_app/features/auth/domain/entities/social_media_login_button_model.dart';
+import 'package:look_up_demo_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/custom_login_icon_button.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/login_screen_background_clipper.dart';
 import 'package:look_up_demo_app/features/home/presentation/screen/pre_loader_home_screen.dart';
@@ -42,6 +44,8 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
     ),
   ];
 
+  final AuthBloc _authBloc = AuthBloc();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -61,320 +65,247 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                 ),
               ),
 
-              /// Logo
+              /// Screen Components
               Positioned(
                 left: 0,
                 right: 0,
                 top: 0,
                 height: size.height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        AppConstants.appLogoPath,
-                        height: size.height * 0.075,
-                      ),
-                    ),
-                    sizedBoxHeight(size.height * 0.04),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.072,
-                        vertical: size.height * 0.01,
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  bloc: _authBloc,
+                  builder: (context, state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            AppConstants.appLogoPath,
+                            height: size.height * 0.075,
+                          ),
+                        ),
+                        sizedBoxHeight(size.height * 0.04),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.072,
+                            vertical: size.height * 0.01,
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                sizedBoxHeight(size.height * 0.02),
+                                CustomFormFieldWidget(
+                                  textEditingController: _emailController,
+                                  labelName: 'Email',
+                                  focusNode: _emailFocusNode,
+                                  validatorFunction: emailValidator,
+                                ),
+                                sizedBoxHeight(size.height * 0.02),
+                                CustomFormFieldWidget(
+                                  textEditingController: _passwordController,
+                                  labelName: 'Password',
+                                  obscurePassword:
+                                      state.obscurePassword ? true : false,
+                                  focusNode: _passwordFocusNode,
+                                  validatorFunction: passwordValidator,
+                                  suffixIconFunction: () {
+                                    _authBloc.add(
+                                      const AuthEvent
+                                          .togglePasswordVisibility(),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        sizedBoxHeight(size.height * 0.07),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.072,
+                            vertical: size.height * 0.01,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: BlocListener<AuthBloc, AuthState>(
+                                  bloc: _authBloc,
+                                  listener: (context, state) {
+                                    if (state.signUpSuccess) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Signed up successfully.'),
+                                        ),
+                                      );
+                                    }
+                                    if (!state.signUpSuccess &&
+                                        state.networkMessage != '') {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(state.networkMessage),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: CustomFilledButton(
+                                    buttonLabel: 'SIGNUP',
+                                    buttonOnPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _authBloc.add(
+                                          AuthEvent.createUserSubmitted(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                            context,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    desiredBackgroundColor: Colors.white,
+                                    desiredTextColor: const Color(0xFF1D67DD),
+                                    isLoading: state.isSignUpLoading,
+                                  ),
+                                ),
+                              ),
+                              sizedBoxWidth(10),
+                              Expanded(
+                                child: BlocListener<AuthBloc, AuthState>(
+                                  bloc: _authBloc,
+                                  listener: (context, state) {
+                                    if (state.loginSuccess) {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation,
+                                              secondaryAnimation) {
+                                            return const PreLoaderHomeScreen();
+                                          },
+                                          transitionDuration: const Duration(
+                                              milliseconds: 1000),
+                                          transitionsBuilder: (
+                                            context,
+                                            animation,
+                                            secondaryAnimation,
+                                            child,
+                                          ) {
+                                            const begin = 0.0;
+                                            const end = 1.0;
+                                            const curve = Curves.easeInExpo;
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
+                                            var opacityAnimation =
+                                                animation.drive(tween);
+                                            return Opacity(
+                                              opacity: opacityAnimation.value,
+                                              child: child,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    if (!state.loginSuccess &&
+                                        state.networkMessage != '') {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(state.networkMessage),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: CustomFilledButton(
+                                    buttonLabel: 'LOGIN',
+                                    buttonOnPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _authBloc.add(
+                                          AuthEvent.loginSubmitted(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                            context,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    isLoading: state.isLogInLoading,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        sizedBoxHeight(size.height * 0.05),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             const Text(
-                              'Login',
+                              'or login with',
                               style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                                color: Color(0xFF6E6B6B),
                               ),
                             ),
-                            sizedBoxHeight(size.height * 0.02),
-                            CustomFormFieldWidget(
-                              textEditingController: _emailController,
-                              labelName: 'Email',
-                              focusNode: _emailFocusNode,
-                              validatorFunction: emailValidator,
-                            ),
-                            sizedBoxHeight(size.height * 0.02),
-                            CustomFormFieldWidget(
-                              textEditingController: _passwordController,
-                              labelName: 'Password',
-                              obscurePassword: true,
-                              focusNode: _passwordFocusNode,
-                              validatorFunction: passwordValidator,
-                              suffixIconFunction: () {},
+                            sizedBoxHeight(size.height * 0.015),
+                            Container(
+                              width: double.infinity,
+                              height: size.height * 0.07,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.072,
+                                vertical: size.height * 0.005,
+                              ),
+                              alignment: Alignment.center,
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  final buttonData =
+                                      socialMediaLoginList[index];
+                                  return SocialMediaLoginButtonWidget(
+                                    onTapFunction: buttonData.buttonFunction,
+                                    iconAssetPath:
+                                        buttonData.socialMediaIconPath,
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return sizedBoxWidth(size.width * 0.04);
+                                },
+                                itemCount: socialMediaLoginList.length,
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    sizedBoxHeight(size.height * 0.07),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.072,
-                        vertical: size.height * 0.01,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: CustomFilledButton(
-                              buttonLabel: 'SIGNUP',
-                              buttonOnPressed: () {
-                                if (_formKey.currentState!.validate()) {}
-                              },
-                              desiredBackgroundColor: Colors.white,
-                              desiredTextColor: const Color(0xFF1D67DD),
-                            ),
-                          ),
-                          sizedBoxWidth(10),
-                          Expanded(
-                            child: CustomFilledButton(
-                              buttonLabel: 'LOGIN',
-                              buttonOnPressed: () {
-                                /// validate and add navigation
-                                /// code in BlocListener
-                                // if (_formKey.currentState!.validate()) {}
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation, secondaryAnimation) {
-                                      return const PreLoaderHomeScreen();
-                                    },
-                                    transitionDuration:
-                                    const Duration(milliseconds: 1000),
-                                    transitionsBuilder: (
-                                        context,
-                                        animation,
-                                        secondaryAnimation,
-                                        child,
-                                        ) {
-                                      const begin = 0.0;
-                                      const end = 1.0;
-                                      const curve = Curves.easeInExpo;
-                                      var tween = Tween(begin: begin, end: end)
-                                          .chain(CurveTween(curve: curve));
-                                      var opacityAnimation = animation.drive(tween);
-                                      return Opacity(
-                                        opacity: opacityAnimation.value,
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    sizedBoxHeight(size.height * 0.05),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'or login with',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF6E6B6B),
-                          ),
-                        ),
-                        sizedBoxHeight(size.height * 0.015),
-                        Container(
-                          width: double.infinity,
-                          height: size.height * 0.07,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.072,
-                            vertical: size.height * 0.005,
-                          ),
-                          alignment: Alignment.center,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              final buttonData = socialMediaLoginList[index];
-                              return SocialMediaLoginButtonWidget(
-                                onTapFunction: buttonData.buttonFunction,
-                                iconAssetPath: buttonData.socialMediaIconPath,
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return sizedBoxWidth(size.width * 0.04);
-                            },
-                            itemCount: socialMediaLoginList.length,
+                        sizedBoxHeight(size.height * 0.05),
+                        InkWell(
+                          onTap: () {},
+                          child: const CustomRichTextWidget(
+                            primaryText: "Don't have an account yet ? ",
+                            secondaryText: 'SIGNUP',
                           ),
                         ),
                       ],
-                    ),
-                    sizedBoxHeight(size.height * 0.05),
-                    InkWell(
-                      onTap: () {},
-                      child: const CustomRichTextWidget(
-                        primaryText: "Don't have an account yet ? ",
-                        secondaryText: 'SIGNUP',
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
-
-              // /// Form Field
-              // Positioned(
-              //   left: 0,
-              //   right: 0,
-              //   top: size.height * 0.181,
-              //   child: Container(
-              //     width: double.infinity,
-              //     padding: EdgeInsets.symmetric(
-              //       horizontal: size.width * 0.072,
-              //       vertical: size.height * 0.01,
-              //     ),
-              //     child: Form(
-              //       key: _formKey,
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           const Text(
-              //             'Login',
-              //             style: TextStyle(
-              //               fontSize: 30,
-              //               fontWeight: FontWeight.w500,
-              //               color: Colors.white,
-              //             ),
-              //           ),
-              //           sizedBoxHeight(8),
-              //           CustomFormFieldWidget(
-              //             textEditingController: _emailController,
-              //             labelName: 'Email',
-              //             focusNode: _emailFocusNode,
-              //             validatorFunction: emailValidator,
-              //           ),
-              //           sizedBoxHeight(8),
-              //           CustomFormFieldWidget(
-              //             textEditingController: _passwordController,
-              //             labelName: 'Password',
-              //             obscurePassword: true,
-              //             focusNode: _passwordFocusNode,
-              //             validatorFunction: passwordValidator,
-              //             suffixIconFunction: () {},
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              //
-              // /// Auth Buttons
-              // Positioned(
-              //   left: 0,
-              //   right: 0,
-              //   top: size.height * 0.530,
-              //   child: Container(
-              //     width: double.infinity,
-              //     padding: EdgeInsets.symmetric(
-              //       horizontal: size.width * 0.072,
-              //       vertical: size.height * 0.01,
-              //     ),
-              //     child: Row(
-              //       mainAxisSize: MainAxisSize.max,
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: [
-              //         Expanded(
-              //           child: CustomFilledButton(
-              //             buttonLabel: 'SIGNUP',
-              //             buttonOnPressed: () {
-              //               if (_formKey.currentState!.validate()) {}
-              //             },
-              //             desiredBackgroundColor: Colors.white,
-              //             desiredTextColor: const Color(0xFF1D67DD),
-              //           ),
-              //         ),
-              //         sizedBoxWidth(10),
-              //         Expanded(
-              //           child: CustomFilledButton(
-              //             buttonLabel: 'LOGIN',
-              //             buttonOnPressed: () {
-              //               if (_formKey.currentState!.validate()) {}
-              //             },
-              //           ),
-              //         )
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              //
-              // /// Social Login Buttons
-              // Positioned(
-              //   left: 0,
-              //   right: 0,
-              //   bottom: size.height * 0.187,
-              //   child: Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       const Text(
-              //         'or login with',
-              //         style: TextStyle(
-              //           fontSize: 16,
-              //           fontWeight: FontWeight.w500,
-              //           color: Color(0xFF6E6B6B),
-              //         ),
-              //       ),
-              //       sizedBoxHeight(size.height * 0.015),
-              //       Container(
-              //         width: double.infinity,
-              //         height: size.height * 0.07,
-              //         padding: EdgeInsets.symmetric(
-              //           horizontal: size.width * 0.072,
-              //           vertical: size.height * 0.005,
-              //         ),
-              //         alignment: Alignment.center,
-              //         child: ListView.separated(
-              //           scrollDirection: Axis.horizontal,
-              //           shrinkWrap: true,
-              //           itemBuilder: (context, index) {
-              //             final buttonData = socialMediaLoginList[index];
-              //             return SocialMediaLoginButtonWidget(
-              //               onTapFunction: buttonData.buttonFunction,
-              //               iconAssetPath: buttonData.socialMediaIconPath,
-              //             );
-              //           },
-              //           separatorBuilder: (context, index) {
-              //             return sizedBoxWidth(size.width * 0.04);
-              //           },
-              //           itemCount: socialMediaLoginList.length,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              //
-              // /// Sign Up Text Button
-              // Positioned(
-              //   right: 0,
-              //   left: 0,
-              //   bottom: size.height * 0.075,
-              //   child: InkWell(
-              //     onTap: () {},
-              //     child: const CustomRichTextWidget(
-              //       primaryText: "Don't have an account yet ? ",
-              //       secondaryText: 'SIGNUP',
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

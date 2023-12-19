@@ -21,6 +21,9 @@ mixin _$AuthEvent {
     required TResult Function(
             String email, dynamic password, BuildContext context)
         loginSubmitted,
+    required TResult Function(
+            String email, dynamic password, BuildContext context)
+        createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,6 +31,8 @@ mixin _$AuthEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
+    TResult? Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) =>
       throw _privateConstructorUsedError;
@@ -35,6 +40,8 @@ mixin _$AuthEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
+    TResult Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),
   }) =>
@@ -42,6 +49,7 @@ mixin _$AuthEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoginSubmitted value) loginSubmitted,
+    required TResult Function(_CreateUserSubmitted value) createUserSubmitted,
     required TResult Function(_TogglePasswordVisibility value)
         togglePasswordVisibility,
   }) =>
@@ -49,6 +57,7 @@ mixin _$AuthEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoginSubmitted value)? loginSubmitted,
+    TResult? Function(_CreateUserSubmitted value)? createUserSubmitted,
     TResult? Function(_TogglePasswordVisibility value)?
         togglePasswordVisibility,
   }) =>
@@ -56,6 +65,7 @@ mixin _$AuthEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoginSubmitted value)? loginSubmitted,
+    TResult Function(_CreateUserSubmitted value)? createUserSubmitted,
     TResult Function(_TogglePasswordVisibility value)? togglePasswordVisibility,
     required TResult orElse(),
   }) =>
@@ -161,6 +171,9 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
     required TResult Function(
             String email, dynamic password, BuildContext context)
         loginSubmitted,
+    required TResult Function(
+            String email, dynamic password, BuildContext context)
+        createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) {
     return loginSubmitted(email, password, context);
@@ -171,6 +184,8 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
+    TResult? Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) {
     return loginSubmitted?.call(email, password, context);
@@ -181,6 +196,8 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
+    TResult Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),
   }) {
@@ -194,6 +211,7 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoginSubmitted value) loginSubmitted,
+    required TResult Function(_CreateUserSubmitted value) createUserSubmitted,
     required TResult Function(_TogglePasswordVisibility value)
         togglePasswordVisibility,
   }) {
@@ -204,6 +222,7 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoginSubmitted value)? loginSubmitted,
+    TResult? Function(_CreateUserSubmitted value)? createUserSubmitted,
     TResult? Function(_TogglePasswordVisibility value)?
         togglePasswordVisibility,
   }) {
@@ -214,6 +233,7 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoginSubmitted value)? loginSubmitted,
+    TResult Function(_CreateUserSubmitted value)? createUserSubmitted,
     TResult Function(_TogglePasswordVisibility value)? togglePasswordVisibility,
     required TResult orElse(),
   }) {
@@ -233,6 +253,173 @@ abstract class _LoginSubmitted implements AuthEvent {
   BuildContext get context;
   @JsonKey(ignore: true)
   _$$LoginSubmittedImplCopyWith<_$LoginSubmittedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateUserSubmittedImplCopyWith<$Res> {
+  factory _$$CreateUserSubmittedImplCopyWith(_$CreateUserSubmittedImpl value,
+          $Res Function(_$CreateUserSubmittedImpl) then) =
+      __$$CreateUserSubmittedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String email, dynamic password, BuildContext context});
+}
+
+/// @nodoc
+class __$$CreateUserSubmittedImplCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$CreateUserSubmittedImpl>
+    implements _$$CreateUserSubmittedImplCopyWith<$Res> {
+  __$$CreateUserSubmittedImplCopyWithImpl(_$CreateUserSubmittedImpl _value,
+      $Res Function(_$CreateUserSubmittedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+    Object? password = freezed,
+    Object? context = null,
+  }) {
+    return _then(_$CreateUserSubmittedImpl(
+      null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      freezed == password ? _value.password! : password,
+      null == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
+  const _$CreateUserSubmittedImpl(this.email, this.password, this.context);
+
+  @override
+  final String email;
+  @override
+  final dynamic password;
+  @override
+  final BuildContext context;
+
+  @override
+  String toString() {
+    return 'AuthEvent.createUserSubmitted(email: $email, password: $password, context: $context)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateUserSubmittedImpl &&
+            (identical(other.email, email) || other.email == email) &&
+            const DeepCollectionEquality().equals(other.password, password) &&
+            (identical(other.context, context) || other.context == context));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, email,
+      const DeepCollectionEquality().hash(password), context);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateUserSubmittedImplCopyWith<_$CreateUserSubmittedImpl> get copyWith =>
+      __$$CreateUserSubmittedImplCopyWithImpl<_$CreateUserSubmittedImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String email, dynamic password, BuildContext context)
+        loginSubmitted,
+    required TResult Function(
+            String email, dynamic password, BuildContext context)
+        createUserSubmitted,
+    required TResult Function() togglePasswordVisibility,
+  }) {
+    return createUserSubmitted(email, password, context);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String email, dynamic password, BuildContext context)?
+        loginSubmitted,
+    TResult? Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
+    TResult? Function()? togglePasswordVisibility,
+  }) {
+    return createUserSubmitted?.call(email, password, context);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String email, dynamic password, BuildContext context)?
+        loginSubmitted,
+    TResult Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
+    TResult Function()? togglePasswordVisibility,
+    required TResult orElse(),
+  }) {
+    if (createUserSubmitted != null) {
+      return createUserSubmitted(email, password, context);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_LoginSubmitted value) loginSubmitted,
+    required TResult Function(_CreateUserSubmitted value) createUserSubmitted,
+    required TResult Function(_TogglePasswordVisibility value)
+        togglePasswordVisibility,
+  }) {
+    return createUserSubmitted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_LoginSubmitted value)? loginSubmitted,
+    TResult? Function(_CreateUserSubmitted value)? createUserSubmitted,
+    TResult? Function(_TogglePasswordVisibility value)?
+        togglePasswordVisibility,
+  }) {
+    return createUserSubmitted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_LoginSubmitted value)? loginSubmitted,
+    TResult Function(_CreateUserSubmitted value)? createUserSubmitted,
+    TResult Function(_TogglePasswordVisibility value)? togglePasswordVisibility,
+    required TResult orElse(),
+  }) {
+    if (createUserSubmitted != null) {
+      return createUserSubmitted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CreateUserSubmitted implements AuthEvent {
+  const factory _CreateUserSubmitted(final String email, final dynamic password,
+      final BuildContext context) = _$CreateUserSubmittedImpl;
+
+  String get email;
+  dynamic get password;
+  BuildContext get context;
+  @JsonKey(ignore: true)
+  _$$CreateUserSubmittedImplCopyWith<_$CreateUserSubmittedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -280,6 +467,9 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
     required TResult Function(
             String email, dynamic password, BuildContext context)
         loginSubmitted,
+    required TResult Function(
+            String email, dynamic password, BuildContext context)
+        createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) {
     return togglePasswordVisibility();
@@ -290,6 +480,8 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
+    TResult? Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) {
     return togglePasswordVisibility?.call();
@@ -300,6 +492,8 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
+    TResult Function(String email, dynamic password, BuildContext context)?
+        createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),
   }) {
@@ -313,6 +507,7 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_LoginSubmitted value) loginSubmitted,
+    required TResult Function(_CreateUserSubmitted value) createUserSubmitted,
     required TResult Function(_TogglePasswordVisibility value)
         togglePasswordVisibility,
   }) {
@@ -323,6 +518,7 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_LoginSubmitted value)? loginSubmitted,
+    TResult? Function(_CreateUserSubmitted value)? createUserSubmitted,
     TResult? Function(_TogglePasswordVisibility value)?
         togglePasswordVisibility,
   }) {
@@ -333,6 +529,7 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_LoginSubmitted value)? loginSubmitted,
+    TResult Function(_CreateUserSubmitted value)? createUserSubmitted,
     TResult Function(_TogglePasswordVisibility value)? togglePasswordVisibility,
     required TResult orElse(),
   }) {
@@ -349,9 +546,11 @@ abstract class _TogglePasswordVisibility implements AuthEvent {
 
 /// @nodoc
 mixin _$AuthState {
-  String get networkErrorMessage => throw _privateConstructorUsedError;
+  String get networkMessage => throw _privateConstructorUsedError;
   bool get loginSuccess => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get signUpSuccess => throw _privateConstructorUsedError;
+  bool get isLogInLoading => throw _privateConstructorUsedError;
+  bool get isSignUpLoading => throw _privateConstructorUsedError;
   bool get obscurePassword => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -365,9 +564,11 @@ abstract class $AuthStateCopyWith<$Res> {
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
   $Res call(
-      {String networkErrorMessage,
+      {String networkMessage,
       bool loginSuccess,
-      bool isLoading,
+      bool signUpSuccess,
+      bool isLogInLoading,
+      bool isSignUpLoading,
       bool obscurePassword});
 }
 
@@ -384,23 +585,33 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? networkErrorMessage = null,
+    Object? networkMessage = null,
     Object? loginSuccess = null,
-    Object? isLoading = null,
+    Object? signUpSuccess = null,
+    Object? isLogInLoading = null,
+    Object? isSignUpLoading = null,
     Object? obscurePassword = null,
   }) {
     return _then(_value.copyWith(
-      networkErrorMessage: null == networkErrorMessage
-          ? _value.networkErrorMessage
-          : networkErrorMessage // ignore: cast_nullable_to_non_nullable
+      networkMessage: null == networkMessage
+          ? _value.networkMessage
+          : networkMessage // ignore: cast_nullable_to_non_nullable
               as String,
       loginSuccess: null == loginSuccess
           ? _value.loginSuccess
           : loginSuccess // ignore: cast_nullable_to_non_nullable
               as bool,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      signUpSuccess: null == signUpSuccess
+          ? _value.signUpSuccess
+          : signUpSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLogInLoading: null == isLogInLoading
+          ? _value.isLogInLoading
+          : isLogInLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSignUpLoading: null == isSignUpLoading
+          ? _value.isSignUpLoading
+          : isSignUpLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       obscurePassword: null == obscurePassword
           ? _value.obscurePassword
@@ -419,9 +630,11 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String networkErrorMessage,
+      {String networkMessage,
       bool loginSuccess,
-      bool isLoading,
+      bool signUpSuccess,
+      bool isLogInLoading,
+      bool isSignUpLoading,
       bool obscurePassword});
 }
 
@@ -436,23 +649,33 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? networkErrorMessage = null,
+    Object? networkMessage = null,
     Object? loginSuccess = null,
-    Object? isLoading = null,
+    Object? signUpSuccess = null,
+    Object? isLogInLoading = null,
+    Object? isSignUpLoading = null,
     Object? obscurePassword = null,
   }) {
     return _then(_$AuthStateImpl(
-      networkErrorMessage: null == networkErrorMessage
-          ? _value.networkErrorMessage
-          : networkErrorMessage // ignore: cast_nullable_to_non_nullable
+      networkMessage: null == networkMessage
+          ? _value.networkMessage
+          : networkMessage // ignore: cast_nullable_to_non_nullable
               as String,
       loginSuccess: null == loginSuccess
           ? _value.loginSuccess
           : loginSuccess // ignore: cast_nullable_to_non_nullable
               as bool,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
+      signUpSuccess: null == signUpSuccess
+          ? _value.signUpSuccess
+          : signUpSuccess // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLogInLoading: null == isLogInLoading
+          ? _value.isLogInLoading
+          : isLogInLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isSignUpLoading: null == isSignUpLoading
+          ? _value.isSignUpLoading
+          : isSignUpLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       obscurePassword: null == obscurePassword
           ? _value.obscurePassword
@@ -466,27 +689,35 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 
 class _$AuthStateImpl implements _AuthState {
   _$AuthStateImpl(
-      {this.networkErrorMessage = '',
+      {this.networkMessage = '',
       this.loginSuccess = false,
-      this.isLoading = false,
+      this.signUpSuccess = false,
+      this.isLogInLoading = false,
+      this.isSignUpLoading = false,
       this.obscurePassword = true});
 
   @override
   @JsonKey()
-  final String networkErrorMessage;
+  final String networkMessage;
   @override
   @JsonKey()
   final bool loginSuccess;
   @override
   @JsonKey()
-  final bool isLoading;
+  final bool signUpSuccess;
+  @override
+  @JsonKey()
+  final bool isLogInLoading;
+  @override
+  @JsonKey()
+  final bool isSignUpLoading;
   @override
   @JsonKey()
   final bool obscurePassword;
 
   @override
   String toString() {
-    return 'AuthState(networkErrorMessage: $networkErrorMessage, loginSuccess: $loginSuccess, isLoading: $isLoading, obscurePassword: $obscurePassword)';
+    return 'AuthState(networkMessage: $networkMessage, loginSuccess: $loginSuccess, signUpSuccess: $signUpSuccess, isLogInLoading: $isLogInLoading, isSignUpLoading: $isSignUpLoading, obscurePassword: $obscurePassword)';
   }
 
   @override
@@ -494,19 +725,23 @@ class _$AuthStateImpl implements _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
-            (identical(other.networkErrorMessage, networkErrorMessage) ||
-                other.networkErrorMessage == networkErrorMessage) &&
+            (identical(other.networkMessage, networkMessage) ||
+                other.networkMessage == networkMessage) &&
             (identical(other.loginSuccess, loginSuccess) ||
                 other.loginSuccess == loginSuccess) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
+            (identical(other.signUpSuccess, signUpSuccess) ||
+                other.signUpSuccess == signUpSuccess) &&
+            (identical(other.isLogInLoading, isLogInLoading) ||
+                other.isLogInLoading == isLogInLoading) &&
+            (identical(other.isSignUpLoading, isSignUpLoading) ||
+                other.isSignUpLoading == isSignUpLoading) &&
             (identical(other.obscurePassword, obscurePassword) ||
                 other.obscurePassword == obscurePassword));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, networkErrorMessage,
-      loginSuccess, isLoading, obscurePassword);
+  int get hashCode => Object.hash(runtimeType, networkMessage, loginSuccess,
+      signUpSuccess, isLogInLoading, isSignUpLoading, obscurePassword);
 
   @JsonKey(ignore: true)
   @override
@@ -517,17 +752,23 @@ class _$AuthStateImpl implements _AuthState {
 
 abstract class _AuthState implements AuthState {
   factory _AuthState(
-      {final String networkErrorMessage,
+      {final String networkMessage,
       final bool loginSuccess,
-      final bool isLoading,
+      final bool signUpSuccess,
+      final bool isLogInLoading,
+      final bool isSignUpLoading,
       final bool obscurePassword}) = _$AuthStateImpl;
 
   @override
-  String get networkErrorMessage;
+  String get networkMessage;
   @override
   bool get loginSuccess;
   @override
-  bool get isLoading;
+  bool get signUpSuccess;
+  @override
+  bool get isLogInLoading;
+  @override
+  bool get isSignUpLoading;
   @override
   bool get obscurePassword;
   @override

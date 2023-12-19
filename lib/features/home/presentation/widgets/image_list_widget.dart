@@ -54,8 +54,7 @@ class ImageListWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => FullImageViewerScreen(
-                        imageList: imageList,
-                        selectedImageIndex: index,
+                        imageData: imageData,
                       ),
                     ),
                   );

@@ -28,44 +28,44 @@ class AppConstants {
     ImageDataModel(
       imageId: '001',
       imageUrl:
-          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702874197/personal-contents/eeouqzdztnx14e5pf0uw.jpg',
-      userName: "techNerdy",
-      caption: "hello guys",
+          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702959615/look-demo-ai-images/sqepjw9xzihrulmxylwi.jpg',
+      userName: "model_0",
+      caption: "hello zero",
     ),
     ImageDataModel(
       imageId: '002',
       imageUrl:
-          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702874196/personal-contents/ykospdbwihmhqldtrp4e.jpg',
-      userName: "techNerdy1",
-      caption: "hello guys",
+          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702959615/look-demo-ai-images/wfg3imuv67iowdfusqag.jpg',
+      userName: "model_01",
+      caption: "hello one",
     ),
     ImageDataModel(
       imageId: '003',
       imageUrl:
-          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702874195/personal-contents/swomgteapkvgdtzil4nn.jpg',
-      userName: "techNerdy2",
-      caption: "hello guys",
+          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702959615/look-demo-ai-images/a26s4skckrzodapmyn0o.jpg',
+      userName: "model_02",
+      caption: "hello two",
     ),
     ImageDataModel(
       imageId: '004',
       imageUrl:
-          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702874194/personal-contents/kgddggarwwamvrxyxuzw.jpg',
-      userName: "techNerdy3",
-      caption: "hello guys",
+          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702959614/look-demo-ai-images/yrmrg6s5bt9ml7koxyef.jpg',
+      userName: "model_03",
+      caption: "hello three",
     ),
     ImageDataModel(
       imageId: '005',
       imageUrl:
-          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702874194/personal-contents/feef2eltrb5hqsyf5zkr.jpg',
-      userName: "techNerdy4",
-      caption: "hello guys",
+          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702959614/look-demo-ai-images/rn3kngf6nke25gwfhfkw.jpg',
+      userName: "model_04",
+      caption: "hello four",
     ),
     ImageDataModel(
       imageId: '006',
       imageUrl:
-          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702874194/personal-contents/rglcwaje4dyzexdiohow.jpg',
-      userName: "techNerdy5",
-      caption: "hello guys",
+          'https://res.cloudinary.com/dtw74cb8u/image/upload/v1702959613/look-demo-ai-images/wh3vqsriqmcvzkj8pjkh.jpg',
+      userName: "model_05",
+      caption: "hello five",
     ),
   ];
 }

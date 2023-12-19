@@ -7,6 +7,13 @@ class AuthEvent with _$AuthEvent {
     password,
     BuildContext context,
   ) = _LoginSubmitted;
+
+  const factory AuthEvent.createUserSubmitted(
+    String email,
+    password,
+    BuildContext context,
+  ) = _CreateUserSubmitted;
+
   const factory AuthEvent.togglePasswordVisibility() =
       _TogglePasswordVisibility;
 }

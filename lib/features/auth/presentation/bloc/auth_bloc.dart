@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:look_up_demo_app/core/services/locator.dart';
+import 'package:look_up_demo_app/features/auth/data/auth_repository.dart';
 
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
@@ -16,6 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await event.when<FutureOr<void>>(
           loginSubmitted: (String email, password, BuildContext context) =>
               _onLoginSubmitted(emit, context, email, password),
+          createUserSubmitted: (String email, password, BuildContext context) =>
+              _onCreateUserSubmitted(emit, context, email, password),
           togglePasswordVisibility: () => _onPasswordVisibilityToggle(emit),
         );
       },
@@ -37,5 +43,62 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     BuildContext context,
     String email,
     password,
-  ) async {}
+  ) async {
+    emit(state.copyWith(isLogInLoading: true));
+    final authRepository = getIt.get<AuthRepository>();
+    Either<String, User?> result =
+        await authRepository.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    result.fold(
+      (errorMessage) {
+        emit(
+          state.copyWith(
+            isLogInLoading: false,
+            networkMessage: errorMessage,
+            loginSuccess: false,
+          ),
+        );
+      },
+      (user) {
+        emit(
+          state.copyWith(
+            isLogInLoading: false,
+            loginSuccess: true,
+          ),
+        );
+      },
+    );
+  }
+
+  _onCreateUserSubmitted(
+    Emitter<AuthState> emit,
+    BuildContext context,
+    String email,
+    password,
+  ) async {
+    emit(state.copyWith(isSignUpLoading: true));
+    final authRepository = getIt.get<AuthRepository>();
+    Either<String, User?> result =
+        await authRepository.signUpWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    result.fold(
+      (errorMessage) {
+        emit(
+          state.copyWith(
+            isSignUpLoading: false,
+            networkMessage: errorMessage,
+            signUpSuccess: false,
+          ),
+        );
+      },
+      (user) {
+        emit(state.copyWith(isSignUpLoading: false, signUpSuccess: true));
+      },
+    );
+  }
 }
