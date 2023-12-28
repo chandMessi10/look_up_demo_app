@@ -5,13 +5,13 @@ import 'package:look_up_demo_app/core/utils/app_constants.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
 import 'package:look_up_demo_app/core/utils/input_validation_mixin.dart';
 import 'package:look_up_demo_app/core/widgets/custom_filled_button.dart';
-import 'package:look_up_demo_app/core/widgets/custom_rich_text_widget.dart';
+import 'package:look_up_demo_app/core/widgets/custom_form_field_widget.dart';
 import 'package:look_up_demo_app/core/widgets/custom_scaffold_widget.dart';
-import 'package:look_up_demo_app/core/widgets/custom_text_field.dart';
 import 'package:look_up_demo_app/features/auth/domain/entities/social_media_login_button_model.dart';
 import 'package:look_up_demo_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/custom_login_icon_button.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/login_screen_background_clipper.dart';
+import 'package:look_up_demo_app/features/auth/presentation/widgets/sign_up_widget.dart';
 import 'package:look_up_demo_app/features/home/presentation/screen/pre_loader_home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -25,9 +25,9 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
-  final TextEditingController _passwordController = TextEditingController();
 
   List<SocialMediaLoginButtonModel> socialMediaLoginList = [
     SocialMediaLoginButtonModel(
@@ -78,6 +78,7 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        /// App Logo
                         Align(
                           alignment: Alignment.center,
                           child: SvgPicture.asset(
@@ -86,6 +87,8 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                           ),
                         ),
                         sizedBoxHeight(size.height * 0.04),
+
+                        /// Title & Text Form Fields
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
@@ -132,6 +135,8 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                           ),
                         ),
                         sizedBoxHeight(size.height * 0.07),
+
+                        /// Button
                         Container(
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
@@ -248,11 +253,13 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                                     isLoading: state.isLogInLoading,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
                         sizedBoxHeight(size.height * 0.05),
+
+                        /// Login Options
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -294,13 +301,9 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                           ],
                         ),
                         sizedBoxHeight(size.height * 0.05),
-                        InkWell(
-                          onTap: () {},
-                          child: const CustomRichTextWidget(
-                            primaryText: "Don't have an account yet ? ",
-                            secondaryText: 'SIGNUP',
-                          ),
-                        ),
+
+                        /// Sign Up
+                        const SignUpWidget(),
                       ],
                     );
                   },
