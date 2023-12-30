@@ -18,8 +18,8 @@ void main() async {
   final userLoggedIn = AppConfig().isLoggedIn();
   runApp(
     MyApp(
-      initialScreen:
-          await userLoggedIn ? const HomeScreen() : const LogInScreen(),
+      initialScreen: LogInScreen(),
+          // await userLoggedIn ? const HomeScreen() : const LogInScreen(),
     ),
   );
 }

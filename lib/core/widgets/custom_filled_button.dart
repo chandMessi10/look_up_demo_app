@@ -24,6 +24,9 @@ class CustomFilledButton extends StatelessWidget {
       onPressed: buttonOnPressed,
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(10),
+        // maximumSize: MaterialStateProperty.all<Size>(
+        //   const Size(double.infinity, 50),
+        // ),
         backgroundColor: MaterialStateProperty.all<Color>(
           desiredBackgroundColor ?? Theme.of(context).colorScheme.primary,
         ),

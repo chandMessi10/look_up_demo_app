@@ -1,14 +1,15 @@
 name: look_up_demo_app
 description: "A new Flutter demo app for Loop Up task"
 
-
 publish_to: 'none' 
-
 
 version: 1.0.0+1
 
 environment:
   sdk: '>=3.2.1 <4.0.0'
+
+scripts:
+  build: dart run build_runner build --delete-conflicting-outputs
 
 dependencies:
   flutter:
@@ -32,6 +33,7 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   mockito: ^5.4.4
+  confetti: ^0.7.0
 
 dev_dependencies:
   flutter_test:
