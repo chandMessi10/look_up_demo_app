@@ -69,7 +69,7 @@ class _SignUpConfettiWidgetState extends State<SignUpConfettiWidget> {
               borderRadius: BorderRadius.circular(24),
             ),
             margin: const EdgeInsets.all(16),
-            child: Align(
+            child: const Align(
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

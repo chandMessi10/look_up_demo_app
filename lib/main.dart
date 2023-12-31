@@ -19,7 +19,7 @@ void main() async {
   runApp(
     MyApp(
       initialScreen: LogInScreen(),
-          // await userLoggedIn ? const HomeScreen() : const LogInScreen(),
+      // await userLoggedIn ? const HomeScreen() : const LogInScreen(),
     ),
   );
 }
@@ -41,6 +41,16 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF1D67DD),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1D67DD)),
         useMaterial3: true,
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Color(0xFF1D67DD),
+          dragHandleColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+          ),
+        ),
       ),
       debugShowCheckedModeBanner: false,
       home: initialScreen,

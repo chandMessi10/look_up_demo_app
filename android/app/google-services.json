@@ -12,7 +12,20 @@
           "package_name": "com.example.look_up_demo_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "510569646351-csofn8ffvcirtocevgnu1m9c3odl483p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.look_up_demo_app",
+            "certificate_hash": "95c8a42587a6517b7733630ee95350e29985b48f"
+          }
+        },
+        {
+          "client_id": "510569646351-42pqniu0af90fsrt8pbma51epomjk0pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDY42VjMeDwUV-m9T1IJ2NU0kCqxNMAxBo"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510569646351-42pqniu0af90fsrt8pbma51epomjk0pi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "510569646351-64hmuadbencm6s75u48pc0oer7h8kr8b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lookUpDemoApp.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }

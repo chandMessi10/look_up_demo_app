@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,7 +11,6 @@ import 'package:look_up_demo_app/features/auth/domain/entities/social_media_logi
 import 'package:look_up_demo_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/custom_login_icon_button.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/login_screen_background_clipper.dart';
-import 'package:look_up_demo_app/features/auth/presentation/widgets/sign_up_confetti_widget.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/sign_up_widget.dart';
 import 'package:look_up_demo_app/features/home/presentation/screen/pre_loader_home_screen.dart';
 
@@ -83,19 +79,49 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                     right: 0,
                     top: size.height * 0.1,
                     height: size.height,
-                    child: BlocListener<AuthBloc, AuthState>(
+                    child: BlocConsumer<AuthBloc, AuthState>(
                       bloc: _authBloc,
                       listener: (BuildContext context, state) {
-                        if (state.signUpSuccess) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => const SignUpConfettiWidget(),
+                        if (state.loginSuccess) {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return const PreLoaderHomeScreen();
+                              },
+                              transitionDuration:
+                                  const Duration(milliseconds: 1000),
+                              transitionsBuilder: (
+                                context,
+                                animation,
+                                secondaryAnimation,
+                                child,
+                              ) {
+                                const begin = 0.0;
+                                const end = 1.0;
+                                const curve = Curves.easeInExpo;
+                                var tween = Tween(begin: begin, end: end)
+                                    .chain(CurveTween(curve: curve));
+                                var opacityAnimation = animation.drive(tween);
+                                return Opacity(
+                                  opacity: opacityAnimation.value,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (!state.loginSuccess && state.networkMessage != '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.networkMessage),
+                            ),
                           );
                         }
                       },
-                      child: Column(
+                      builder: (context, state) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           /// App Logo
                           Align(
@@ -162,75 +188,20 @@ class _LogInScreenState extends State<LogInScreen> with InputValidationMixin {
                               horizontal: size.width * 0.072,
                               vertical: size.height * 0.01,
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: BlocListener<AuthBloc, AuthState>(
-                                    bloc: _authBloc,
-                                    listener: (context, state) {
-                                      if (state.loginSuccess) {
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (context, animation,
-                                                secondaryAnimation) {
-                                              return const PreLoaderHomeScreen();
-                                            },
-                                            transitionDuration: const Duration(
-                                                milliseconds: 1000),
-                                            transitionsBuilder: (
-                                              context,
-                                              animation,
-                                              secondaryAnimation,
-                                              child,
-                                            ) {
-                                              const begin = 0.0;
-                                              const end = 1.0;
-                                              const curve = Curves.easeInExpo;
-                                              var tween = Tween(
-                                                      begin: begin, end: end)
-                                                  .chain(
-                                                      CurveTween(curve: curve));
-                                              var opacityAnimation =
-                                                  animation.drive(tween);
-                                              return Opacity(
-                                                opacity: opacityAnimation.value,
-                                                child: child,
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      }
-                                      if (!state.loginSuccess &&
-                                          state.networkMessage != '') {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(state.networkMessage),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: CustomFilledButton(
-                                      buttonLabel: 'LOGIN',
-                                      buttonOnPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          _authBloc.add(
-                                            AuthEvent.loginSubmitted(
-                                              _emailController.text.trim(),
-                                              _passwordController.text.trim(),
-                                              context,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      isLoading: state.isLogInLoading,
+                            child: CustomFilledButton(
+                              buttonLabel: 'LOGIN',
+                              buttonOnPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _authBloc.add(
+                                    AuthEvent.loginSubmitted(
+                                      _emailController.text.trim(),
+                                      _passwordController.text.trim(),
+                                      context,
                                     ),
-                                  ),
-                                ),
-                              ],
+                                  );
+                                }
+                              },
+                              isLoading: state.isLogInLoading,
                             ),
                           ),
                           sizedBoxHeight(size.height * 0.05),

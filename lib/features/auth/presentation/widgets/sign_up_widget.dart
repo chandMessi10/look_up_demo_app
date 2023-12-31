@@ -4,6 +4,7 @@ import 'package:look_up_demo_app/core/utils/input_validation_mixin.dart';
 import 'package:look_up_demo_app/core/widgets/custom_filled_button.dart';
 import 'package:look_up_demo_app/core/widgets/custom_form_field_widget.dart';
 import 'package:look_up_demo_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:look_up_demo_app/features/auth/presentation/widgets/sign_up_confetti_widget.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({super.key});
@@ -90,15 +91,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                   context: context,
                   elevation: 2,
                   isScrollControlled: true,
-                  showDragHandle: true,
                   isDismissible: !state.isSignUpLoading,
                   transitionAnimationController: _animationController,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
-                    ),
-                  ),
                   builder: (context) {
                     return SingleChildScrollView(
                       child: Container(
@@ -174,29 +168,31 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 },
                               ),
                               const SizedBox(height: 40),
-                              BlocListener<AuthBloc, AuthState>(
-                                bloc: _authBloc,
-                                listener: (context, state) {
-                                  if (state.signUpSuccess) {
-                                    Navigator.pop(context);
-                                    // ScaffoldMessenger.of(context).showSnackBar(
-                                    //   const SnackBar(
-                                    //     content: Text('Signed up successfully.'),
-                                    //   ),
-                                    // );
-                                  }
-                                  if (!state.signUpSuccess &&
-                                      state.networkMessage != '') {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(state.networkMessage),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: CustomFilledButton(
+                              SizedBox(
+                                width: double.infinity,
+                                child: BlocConsumer<AuthBloc, AuthState>(
+                                  bloc: _authBloc,
+                                  listener: (context, state) {
+                                    if (state.signUpSuccess) {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            const SignUpConfettiWidget(),
+                                      );
+                                    }
+                                    if (!state.signUpSuccess &&
+                                        state.networkMessage != '') {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(state.networkMessage),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  builder: (context, state) =>
+                                      CustomFilledButton(
                                     buttonLabel: 'SIGNUP',
                                     buttonOnPressed: () {
                                       if (_signUpFormKey.currentState!
@@ -216,7 +212,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 40),
                             ],
                           ),
                         ),
