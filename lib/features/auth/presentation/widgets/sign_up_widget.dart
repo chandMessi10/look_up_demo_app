@@ -89,7 +89,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                 showModalBottomSheet(
                   context: context,
                   elevation: 2,
-                  useSafeArea: true,
+                  isScrollControlled: true,
+                  showDragHandle: true,
                   isDismissible: !state.isSignUpLoading,
                   transitionAnimationController: _animationController,
                   shape: const RoundedRectangleBorder(
@@ -99,117 +100,125 @@ class _SignUpWidgetState extends State<SignUpWidget>
                     ),
                   ),
                   builder: (context) {
-                    return Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24),
+                    return SingleChildScrollView(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                          top: 16,
+                          left: 16,
+                          right: 16,
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                      ),
-                      child: Form(
-                        key: _signUpFormKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                const Expanded(
-                                  child: Text(
-                                    'Create your account',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24),
+                          ),
+                        ),
+                        child: Form(
+                          key: _signUpFormKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const Expanded(
+                                    child: Text(
+                                      'Create your account',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (!state.isSignUpLoading) {
+                                        return Navigator.pop(context);
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.close,
+                                      size: 18,
                                       color: Colors.white,
                                     ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    if (!state.isSignUpLoading) {
-                                      return Navigator.pop(context);
-                                    }
-                                  },
-                                  icon: const Icon(
-                                    Icons.close,
-                                    size: 18,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            CustomFormFieldWidget(
-                              textEditingController: _emailController,
-                              labelName: 'Email',
-                              focusNode: _emailFocusNode,
-                              validatorFunction: emailValidator,
-                            ),
-                            const SizedBox(height: 16),
-                            CustomFormFieldWidget(
-                              textEditingController: _passwordController,
-                              labelName: 'Password',
-                              obscurePassword:
-                                  state.obscurePassword ? true : false,
-                              focusNode: _passwordFocusNode,
-                              validatorFunction: passwordValidator,
-                              suffixIconFunction: () {
-                                _authBloc.add(
-                                  const AuthEvent.togglePasswordVisibility(),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 40),
-                            BlocListener<AuthBloc, AuthState>(
-                              bloc: _authBloc,
-                              listener: (context, state) {
-                                if (state.signUpSuccess) {
-                                  Navigator.pop(context);
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  //   const SnackBar(
-                                  //     content: Text('Signed up successfully.'),
-                                  //   ),
-                                  // );
-                                }
-                                if (!state.signUpSuccess &&
-                                    state.networkMessage != '') {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(state.networkMessage),
-                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              CustomFormFieldWidget(
+                                textEditingController: _emailController,
+                                labelName: 'Email',
+                                focusNode: _emailFocusNode,
+                                validatorFunction: emailValidator,
+                              ),
+                              const SizedBox(height: 16),
+                              CustomFormFieldWidget(
+                                textEditingController: _passwordController,
+                                labelName: 'Password',
+                                obscurePassword:
+                                    state.obscurePassword ? true : false,
+                                focusNode: _passwordFocusNode,
+                                validatorFunction: passwordValidator,
+                                suffixIconFunction: () {
+                                  _authBloc.add(
+                                    const AuthEvent.togglePasswordVisibility(),
                                   );
-                                }
-                              },
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: CustomFilledButton(
-                                  buttonLabel: 'SIGNUP',
-                                  buttonOnPressed: () {
-                                    if (_signUpFormKey.currentState!
-                                        .validate()) {
-                                      _authBloc.add(
-                                        AuthEvent.createUserSubmitted(
-                                          _emailController.text.trim(),
-                                          _passwordController.text.trim(),
-                                          context,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  desiredBackgroundColor: Colors.white,
-                                  desiredTextColor: const Color(0xFF1D67DD),
-                                  isLoading: state.isSignUpLoading,
+                                },
+                              ),
+                              const SizedBox(height: 40),
+                              BlocListener<AuthBloc, AuthState>(
+                                bloc: _authBloc,
+                                listener: (context, state) {
+                                  if (state.signUpSuccess) {
+                                    Navigator.pop(context);
+                                    // ScaffoldMessenger.of(context).showSnackBar(
+                                    //   const SnackBar(
+                                    //     content: Text('Signed up successfully.'),
+                                    //   ),
+                                    // );
+                                  }
+                                  if (!state.signUpSuccess &&
+                                      state.networkMessage != '') {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(state.networkMessage),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: CustomFilledButton(
+                                    buttonLabel: 'SIGNUP',
+                                    buttonOnPressed: () {
+                                      if (_signUpFormKey.currentState!
+                                          .validate()) {
+                                        _authBloc.add(
+                                          AuthEvent.createUserSubmitted(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                            context,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    desiredBackgroundColor: Colors.white,
+                                    desiredTextColor: const Color(0xFF1D67DD),
+                                    isLoading: state.isSignUpLoading,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 16),
-                          ],
+                              const SizedBox(height: 16),
+                            ],
+                          ),
                         ),
                       ),
                     );
