@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:look_up_demo_app/core/config/app_config.dart';
 import 'package:look_up_demo_app/core/utils/sqflite_service.dart';
-import 'package:look_up_demo_app/features/auth/presentation/screens/login/login_screen.dart';
+import 'package:look_up_demo_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:look_up_demo_app/features/home/presentation/screen/home_screen.dart';
 import 'package:look_up_demo_app/firebase_options.dart';
 

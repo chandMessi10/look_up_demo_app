@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:video_player/video_player.dart';
 
 class SignUpConfettiWidget extends StatefulWidget {
   const SignUpConfettiWidget({super.key});
@@ -12,9 +14,12 @@ class SignUpConfettiWidget extends StatefulWidget {
 
 class _SignUpConfettiWidgetState extends State<SignUpConfettiWidget> {
   late ConfettiController _controllerController;
+  bool isVideoUrlLoading = true;
+  late VideoPlayerController _videoPlayerController;
 
   @override
   void initState() {
+    _getVideoUrl();
     _controllerController = ConfettiController(
       duration: const Duration(seconds: 2),
     );
@@ -24,8 +29,24 @@ class _SignUpConfettiWidgetState extends State<SignUpConfettiWidget> {
 
   @override
   void dispose() {
+    _videoPlayerController.dispose();
     _controllerController.dispose();
     super.dispose();
+  }
+
+  Future<void> _getVideoUrl() async {
+    Reference videoReference =
+        FirebaseStorage.instance.ref('videos').child('happy_new_year.mp4');
+    String downloadUrl = await videoReference.getDownloadURL();
+    _videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(downloadUrl))
+          ..initialize().then((_) {
+            if (_videoPlayerController.value.isInitialized) {
+              setState(() {
+                isVideoUrlLoading = false;
+              });
+            }
+          });
   }
 
   /// A custom Path to paint stars.
@@ -69,12 +90,20 @@ class _SignUpConfettiWidgetState extends State<SignUpConfettiWidget> {
               borderRadius: BorderRadius.circular(24),
             ),
             margin: const EdgeInsets.all(16),
-            child: const Align(
+            child: Align(
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Sign Up Successful'),
+                  SizedBox(
+                    height: 120,
+                    width: 150,
+                    child: isVideoUrlLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : VideoPlayer(_videoPlayerController),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text('Sign Up Successful'),
                   // SizedBox(height: 16),
                 ],
               ),

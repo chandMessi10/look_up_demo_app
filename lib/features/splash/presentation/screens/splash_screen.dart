@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:look_up_demo_app/core/utils/custom_sized_box.dart';
 import 'package:look_up_demo_app/core/widgets/custom_filled_button.dart';
-import 'package:look_up_demo_app/features/auth/presentation/screens/login/login_screen.dart';
+import 'package:look_up_demo_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:look_up_demo_app/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:look_up_demo_app/features/splash/presentation/widgets/splash_background_custom_path.dart';
 import 'package:look_up_demo_app/features/splash/presentation/widgets/splash_login_button_custom_path.dart';
