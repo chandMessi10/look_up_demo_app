@@ -11,7 +11,6 @@ import 'package:look_up_demo_app/features/auth/domain/entities/social_media_logi
 import 'package:look_up_demo_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/custom_login_icon_button.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/login_screen_background_clipper.dart';
-import 'package:look_up_demo_app/features/auth/presentation/widgets/sign_up_confetti_widget.dart';
 import 'package:look_up_demo_app/features/auth/presentation/widgets/sign_up_widget.dart';
 import 'package:look_up_demo_app/features/home/presentation/screen/pre_loader_home_screen.dart';
 

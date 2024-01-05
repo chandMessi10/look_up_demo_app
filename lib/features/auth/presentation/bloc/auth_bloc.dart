@@ -10,7 +10,9 @@ import 'package:look_up_demo_app/core/services/locator.dart';
 import 'package:look_up_demo_app/features/auth/data/auth_repository.dart';
 
 part 'auth_bloc.freezed.dart';
+
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -20,8 +22,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await event.when<FutureOr<void>>(
           loginSubmitted: (String email, password, BuildContext context) =>
               _onLoginSubmitted(emit, context, email, password),
-          createUserSubmitted: (String email, password, BuildContext context) =>
-              _onCreateUserSubmitted(emit, context, email, password),
+          createUserSubmitted:
+              (String name, email, password, BuildContext context) =>
+                  _onCreateUserSubmitted(emit, context, name, email, password),
           togglePasswordVisibility: () => _onPasswordVisibilityToggle(emit),
         );
       },
@@ -76,13 +79,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _onCreateUserSubmitted(
     Emitter<AuthState> emit,
     BuildContext context,
-    String email,
+    String name,
+    email,
     password,
   ) async {
     emit(state.copyWith(isSignUpLoading: true));
     final authRepository = getIt.get<AuthRepository>();
     Either<String, User?> result =
         await authRepository.signUpWithEmailAndPassword(
+      name: name,
       email: email,
       password: password,
     );

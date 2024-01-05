@@ -22,7 +22,7 @@ mixin _$AuthEvent {
             String email, dynamic password, BuildContext context)
         loginSubmitted,
     required TResult Function(
-            String email, dynamic password, BuildContext context)
+            String name, dynamic email, dynamic password, BuildContext context)
         createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) =>
@@ -31,7 +31,8 @@ mixin _$AuthEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult? Function(String email, dynamic password, BuildContext context)?
+    TResult? Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) =>
@@ -40,7 +41,8 @@ mixin _$AuthEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult Function(String email, dynamic password, BuildContext context)?
+    TResult Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),
@@ -172,7 +174,7 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
             String email, dynamic password, BuildContext context)
         loginSubmitted,
     required TResult Function(
-            String email, dynamic password, BuildContext context)
+            String name, dynamic email, dynamic password, BuildContext context)
         createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) {
@@ -184,7 +186,8 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult? Function(String email, dynamic password, BuildContext context)?
+    TResult? Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) {
@@ -196,7 +199,8 @@ class _$LoginSubmittedImpl implements _LoginSubmitted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult Function(String email, dynamic password, BuildContext context)?
+    TResult Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),
@@ -262,7 +266,8 @@ abstract class _$$CreateUserSubmittedImplCopyWith<$Res> {
           $Res Function(_$CreateUserSubmittedImpl) then) =
       __$$CreateUserSubmittedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String email, dynamic password, BuildContext context});
+  $Res call(
+      {String name, dynamic email, dynamic password, BuildContext context});
 }
 
 /// @nodoc
@@ -276,15 +281,17 @@ class __$$CreateUserSubmittedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? email = null,
+    Object? name = null,
+    Object? email = freezed,
     Object? password = freezed,
     Object? context = null,
   }) {
     return _then(_$CreateUserSubmittedImpl(
-      null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+      null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
+      freezed == email ? _value.email! : email,
       freezed == password ? _value.password! : password,
       null == context
           ? _value.context
@@ -297,10 +304,13 @@ class __$$CreateUserSubmittedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
-  const _$CreateUserSubmittedImpl(this.email, this.password, this.context);
+  const _$CreateUserSubmittedImpl(
+      this.name, this.email, this.password, this.context);
 
   @override
-  final String email;
+  final String name;
+  @override
+  final dynamic email;
   @override
   final dynamic password;
   @override
@@ -308,7 +318,7 @@ class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
 
   @override
   String toString() {
-    return 'AuthEvent.createUserSubmitted(email: $email, password: $password, context: $context)';
+    return 'AuthEvent.createUserSubmitted(name: $name, email: $email, password: $password, context: $context)';
   }
 
   @override
@@ -316,14 +326,19 @@ class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateUserSubmittedImpl &&
-            (identical(other.email, email) || other.email == email) &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.password, password) &&
             (identical(other.context, context) || other.context == context));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email,
-      const DeepCollectionEquality().hash(password), context);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(password),
+      context);
 
   @JsonKey(ignore: true)
   @override
@@ -339,11 +354,11 @@ class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
             String email, dynamic password, BuildContext context)
         loginSubmitted,
     required TResult Function(
-            String email, dynamic password, BuildContext context)
+            String name, dynamic email, dynamic password, BuildContext context)
         createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) {
-    return createUserSubmitted(email, password, context);
+    return createUserSubmitted(name, email, password, context);
   }
 
   @override
@@ -351,11 +366,12 @@ class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult? Function(String email, dynamic password, BuildContext context)?
+    TResult? Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) {
-    return createUserSubmitted?.call(email, password, context);
+    return createUserSubmitted?.call(name, email, password, context);
   }
 
   @override
@@ -363,13 +379,14 @@ class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult Function(String email, dynamic password, BuildContext context)?
+    TResult Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),
   }) {
     if (createUserSubmitted != null) {
-      return createUserSubmitted(email, password, context);
+      return createUserSubmitted(name, email, password, context);
     }
     return orElse();
   }
@@ -412,10 +429,14 @@ class _$CreateUserSubmittedImpl implements _CreateUserSubmitted {
 }
 
 abstract class _CreateUserSubmitted implements AuthEvent {
-  const factory _CreateUserSubmitted(final String email, final dynamic password,
+  const factory _CreateUserSubmitted(
+      final String name,
+      final dynamic email,
+      final dynamic password,
       final BuildContext context) = _$CreateUserSubmittedImpl;
 
-  String get email;
+  String get name;
+  dynamic get email;
   dynamic get password;
   BuildContext get context;
   @JsonKey(ignore: true)
@@ -468,7 +489,7 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
             String email, dynamic password, BuildContext context)
         loginSubmitted,
     required TResult Function(
-            String email, dynamic password, BuildContext context)
+            String name, dynamic email, dynamic password, BuildContext context)
         createUserSubmitted,
     required TResult Function() togglePasswordVisibility,
   }) {
@@ -480,7 +501,8 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult? Function(String email, dynamic password, BuildContext context)?
+    TResult? Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult? Function()? togglePasswordVisibility,
   }) {
@@ -492,7 +514,8 @@ class _$TogglePasswordVisibilityImpl implements _TogglePasswordVisibility {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String email, dynamic password, BuildContext context)?
         loginSubmitted,
-    TResult Function(String email, dynamic password, BuildContext context)?
+    TResult Function(
+            String name, dynamic email, dynamic password, BuildContext context)?
         createUserSubmitted,
     TResult Function()? togglePasswordVisibility,
     required TResult orElse(),

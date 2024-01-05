@@ -9,6 +9,7 @@ class CustomFormFieldWidget extends StatelessWidget {
     this.obscurePassword,
     this.suffixIconFunction,
     this.focusNode,
+    this.desiredTextInputAction,
   }) : super(key: key);
 
   final TextEditingController textEditingController;
@@ -17,6 +18,7 @@ class CustomFormFieldWidget extends StatelessWidget {
   final bool? obscurePassword;
   final VoidCallback? suffixIconFunction;
   final FocusNode? focusNode;
+  final TextInputAction? desiredTextInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CustomFormFieldWidget extends StatelessWidget {
         fontWeight: FontWeight.w700,
       ),
       focusNode: focusNode,
+      textInputAction: desiredTextInputAction ?? TextInputAction.done,
       decoration: InputDecoration(
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),

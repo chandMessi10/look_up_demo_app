@@ -18,8 +18,10 @@ class _SignUpWidgetState extends State<SignUpWidget>
   late GlobalKey<FormState> _signUpFormKey;
   late AnimationController _animationController;
 
+  late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+  late FocusNode _nameFocusNode;
   late FocusNode _emailFocusNode;
   late FocusNode _passwordFocusNode;
 
@@ -32,8 +34,10 @@ class _SignUpWidgetState extends State<SignUpWidget>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _nameFocusNode = FocusNode();
     _emailFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
     _authBloc = AuthBloc();
@@ -43,6 +47,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
   @override
   void dispose() {
     _animationController.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _emailFocusNode.dispose();
@@ -148,10 +153,19 @@ class _SignUpWidgetState extends State<SignUpWidget>
                               ),
                               const SizedBox(height: 16),
                               CustomFormFieldWidget(
+                                textEditingController: _nameController,
+                                labelName: 'Name',
+                                focusNode: _nameFocusNode,
+                                validatorFunction: nameValidator,
+                                desiredTextInputAction: TextInputAction.next,
+                              ),
+                              const SizedBox(height: 16),
+                              CustomFormFieldWidget(
                                 textEditingController: _emailController,
                                 labelName: 'Email',
                                 focusNode: _emailFocusNode,
                                 validatorFunction: emailValidator,
+                                desiredTextInputAction: TextInputAction.next,
                               ),
                               const SizedBox(height: 16),
                               CustomFormFieldWidget(
@@ -199,6 +213,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           .validate()) {
                                         _authBloc.add(
                                           AuthEvent.createUserSubmitted(
+                                            _nameController.text.trim(),
                                             _emailController.text.trim(),
                                             _passwordController.text.trim(),
                                             context,

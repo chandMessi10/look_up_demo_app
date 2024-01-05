@@ -9,7 +9,8 @@ class AuthEvent with _$AuthEvent {
   ) = _LoginSubmitted;
 
   const factory AuthEvent.createUserSubmitted(
-    String email,
+    String name,
+    email,
     password,
     BuildContext context,
   ) = _CreateUserSubmitted;
